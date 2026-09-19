@@ -9,11 +9,11 @@ export function parseMermaidFlowchart(code: string): GraphIR {
   let currentSubgraph: { id: string; title: string; nodeIds: string[] } | null = null;
 
   // Regex patterns
-  // Node with shape: ID[Label], ID(Label), ID{Label}, ID((Label)), ID([Label])
-  const nodeDefRegex = /([a-zA-Z0-9_]+)\s*(\[\(|\{\{|\(\[|\[\[|\[|\(|\{|\(\()([^\]\)\}]*)(\]\]|\)\}\}|\)\)|\]|\)|\})/g;
+  // Node with shape: ID[Label], ID(Label), ID{Label}, ID((Label)), ID([Label]), ID[[Label]], ID[(Label)]
+  const nodeDefRegex = /([a-zA-Z0-9_]+)\s*(\(\[|\[\[|\[\(|\(\(|\{\{|\[|\(|\{)(.*?)(\]\)|\]\]|\)\]|\)\)|\}\}|\]|\)|\})/g;
   
-  // Edge: A --> B, A -->|label| B, A -.-> B, A ==> B
-  const edgeRegex = /([a-zA-Z0-9_]+)\s*(?:-->|---|-.->|==>)\s*(?:\|([^|]+)\|)?\s*([a-zA-Z0-9_]+)/;
+  // Edge: A --> B, A[Label] --> B{Label}, A -->|label| B, A -.-> B, A ==> B
+  const edgeRegex = /([a-zA-Z0-9_]+)(?:\s*(?:\(\[|\[\[|\[\(|\(\(|\{\{|\[|\(|\{).*?(?:\]\)|\]\]|\)\]|\)\)|\}\}|\]|\)|\}))?\s*(?:(?:-->|---|-.->|==>)\s*(?:\|([^|]+)\|)?|--\s*([^-\n]+?)\s*-->)\s*([a-zA-Z0-9_]+)/;
   
   // Subgraph: subgraph Title or subgraph ID [Title]
   const subgraphStartRegex = /^\s*subgraph\s+(?:([a-zA-Z0-9_]+)\s*(?:\[(.*)\])?)?(.*)/i;
@@ -87,8 +87,8 @@ export function parseMermaidFlowchart(code: string): GraphIR {
     const edgeMatch = line.match(edgeRegex);
     if (edgeMatch) {
       const fromId = edgeMatch[1];
-      const condition = edgeMatch[2]?.trim();
-      const toId = edgeMatch[3];
+      const condition = (edgeMatch[2] || edgeMatch[3])?.trim();
+      const toId = edgeMatch[4];
 
       // Ensure nodes exist even if defined without brackets
       if (!nodes.has(fromId)) {
@@ -113,7 +113,7 @@ export function parseMermaidFlowchart(code: string): GraphIR {
       }
 
       const edgeId = `${fromId}->${toId}${condition ? `[${condition}]` : ''}`;
-      const isBinary = condition ? /^(yes|no|true|false|pass|fail|approved|rejected)$/i.test(condition) : undefined;
+      const isBinary = condition ? /^(yes|no|true|false|pass|fail|approved|rejected|verified|discrepancy)$/i.test(condition) : undefined;
 
       edges.push({
         id: edgeId,
