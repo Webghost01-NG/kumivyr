@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { PlayCircle, CheckCircle, XCircle, DollarSign, TrendingDown } from 'lucide-react';
+import React from 'react';
+import { PlayCircle, CheckCircle, XCircle, TrendingDown } from 'lucide-react';
 import { EvalTestCase, EvalSuiteReport } from '../../types/evals';
 
 interface EvalRunnerTableProps {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Network, Play, Download, Key, HelpCircle, Check, ExternalLink } from 'lucide-react';
+import { Network, Play, Download, Key, Check, ExternalLink } from 'lucide-react';
 import { TEMPLATES } from '../../lib/templates';
 import { TemplateDefinition } from '../../types/braid';
 

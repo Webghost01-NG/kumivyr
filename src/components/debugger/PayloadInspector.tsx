@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, Database, Clock } from 'lucide-react';
+import { Database, Clock } from 'lucide-react';
 import { ExecutionStep } from '../../types/debugger';
 
 interface PayloadInspectorProps {

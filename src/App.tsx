@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Header } from './components/layout/Header';
 import { PromptEditor } from './components/editor/PromptEditor';
 import { MermaidCodeEditor } from './components/editor/MermaidCodeEditor';

@@ -27,7 +27,7 @@ mermaid.initialize({
 export const MermaidCanvas: React.FC<MermaidCanvasProps> = ({
   mermaidCode,
   activeNodeId,
-  onSelectNode,
+  onSelectNode: _onSelectNode,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [svgContent, setSvgContent] = useState<string>('');
