@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-slate-100 antialiased selection:bg-brand-emerald selection:text-black;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #23273c;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
+/* Active SVG Node Glow Animation */
+@keyframes nodePulse {
+  0% {
+    filter: drop-shadow(0 0 4px rgba(1, 254, 147, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(1, 254, 147, 0.9));
+  }
+  100% {
+    filter: drop-shadow(0 0 4px rgba(1, 254, 147, 0.4));
+  }
+}
+
+.active-debug-node {
+  animation: nodePulse 1.5s infinite ease-in-out;
+}
